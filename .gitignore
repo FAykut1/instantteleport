@@ -29,8 +29,22 @@ bin/
 ### VS Code ###
 .vscode/
 
-### Mac OS ###
+### OS ###
 .DS_Store
+
+### Java ###
+*.class
+hs_err_pid*
+replay_pid*
+
+### Logs and Archives ###
+*.log
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
 
 ### Minecraft Modding ###
 run/
