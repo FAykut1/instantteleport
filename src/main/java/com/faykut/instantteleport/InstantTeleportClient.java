@@ -4,13 +4,13 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -52,13 +52,6 @@ public class InstantTeleportClient {
     }
 
     @SubscribeEvent
-    static void onClientSetup(FMLClientSetupEvent event) {
-        // Some client setup code
-        InstantTeleport.LOGGER.info("HELLO FROM CLIENT SETUP");
-        InstantTeleport.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-    }
-
-    @SubscribeEvent
     static void registerKeyMappings(RegisterKeyMappingsEvent event) {
         event.registerCategory(TELEPORT_CATEGORY);
         for (KeyMapping keyMapping : TELEPORT_SLOT_KEYS) {
@@ -87,5 +80,12 @@ public class InstantTeleportClient {
             }
             TELEPORT_SLOT_KEY_STATES[slot] = keyDown;
         }
+    }
+
+    static Component teleportSlotKeyName(int slot) {
+        if (slot < 0 || slot >= TELEPORT_SLOT_KEYS.length) {
+            return Component.empty();
+        }
+        return TELEPORT_SLOT_KEYS[slot].getTranslatedKeyMessage();
     }
 }

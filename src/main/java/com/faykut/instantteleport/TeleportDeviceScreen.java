@@ -13,7 +13,7 @@ import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 public class TeleportDeviceScreen extends Screen {
     private static final int ROW_HEIGHT = 20;
     private static final int BUTTON_HEIGHT = 17;
-    private static final int PANEL_WIDTH = 330;
+    private static final int PANEL_WIDTH = 380;
     private static final int HEADER_HEIGHT = 48;
 
     private OpenTeleportDeviceScreenPayload payload;
@@ -40,12 +40,13 @@ public class TeleportDeviceScreen extends Screen {
 
         int left = (width - PANEL_WIDTH) / 2;
         int top = panelTop() + HEADER_HEIGHT;
-        int nameWidth = 112;
+        int nameX = left + 96;
+        int nameWidth = 150;
         int buttonX = left + PANEL_WIDTH - 124;
 
         for (OpenTeleportDeviceScreenPayload.SlotInfo slot : payload.slots()) {
             int y = top + slot.slot() * ROW_HEIGHT;
-            EditBox nameBox = new EditBox(font, left + 66, y, nameWidth, BUTTON_HEIGHT, Component.literal("Slot name"));
+            EditBox nameBox = new EditBox(font, nameX, y, nameWidth, BUTTON_HEIGHT, Component.literal("Slot name"));
             nameBox.setMaxLength(32);
             nameBox.setValue(slot.name().isBlank() ? "Slot " + (slot.slot() + 1) : slot.name());
             addRenderableWidget(nameBox);
@@ -85,15 +86,16 @@ public class TeleportDeviceScreen extends Screen {
         graphics.centeredText(font, Component.literal("Teleportation Device"), width / 2, top + 10, 0xFFFFFFFF);
         graphics.centeredText(font, Component.literal(payload.status()), width / 2, top + 24, 0xFF9FD8EC);
 
-        int rowLeft = left + 10;
+        int keybindX = left + 31;
+        int keybindWidth = 58;
         for (OpenTeleportDeviceScreenPayload.SlotInfo slot : payload.slots()) {
             int y = top + HEADER_HEIGHT + slot.slot() * ROW_HEIGHT;
             int rowColor = slot.saved() ? 0x2924C6A8 : 0x18101820;
             int dotColor = slot.saved() ? 0xFF35FF9A : 0xFF5F6670;
             graphics.fill(left + 7, y - 1, left + PANEL_WIDTH - 7, y + BUTTON_HEIGHT + 1, rowColor);
             graphics.fill(left + 14, y + 6, left + 19, y + 11, dotColor);
-            graphics.text(font, String.valueOf(slot.slot() + 1), rowLeft + 14, y + 5, 0xDDEEFF);
-            graphics.text(font, slot.saved() ? "Saved" : "Empty", rowLeft + 32, y + 5, slot.saved() ? 0x66FFAA : 0x8A9099);
+            String keyName = InstantTeleportClient.teleportSlotKeyName(slot.slot()).getString();
+            graphics.text(font, font.plainSubstrByWidth(keyName, keybindWidth), keybindX, y + 5, 0x88DDEEFF);
         }
 
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);

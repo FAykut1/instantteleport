@@ -1,6 +1,8 @@
 # InstantTeleport
 
-InstantTeleport is a NeoForge Minecraft mod that adds a rechargeable teleportation device with saved destination slots, hotkey teleporting, and optional Curios support.
+InstantTeleport is a beta NeoForge Minecraft mod that adds a rechargeable teleportation device with saved destination slots and hotkey teleporting.
+
+Current release line: `1.0.0-beta.1` for Minecraft `26.1.2` and NeoForge `26.1.2.63-beta`.
 
 ## Features
 
@@ -8,7 +10,6 @@ InstantTeleport is a NeoForge Minecraft mod that adds a rechargeable teleportati
 - `Creative Teleportation Device` for testing, with infinite energy.
 - Compact right-click GUI for saving, renaming, and removing destinations.
 - `Alt + 1` through `Alt + 9` keybinds to teleport to saved slots.
-- Optional Curios integration with a dedicated `Teleport Device` slot.
 - JEI is included only in the local Gradle runtime for development/testing.
 
 ## Usage
@@ -19,8 +20,6 @@ InstantTeleport is a NeoForge Minecraft mod that adds a rechargeable teleportati
 - Use `Name` to rename a saved slot.
 - Use `X` to remove a saved slot.
 - Press `Alt + 1` through `Alt + 9` to teleport to the matching saved slot.
-
-If Curios is installed, the device can be equipped in the Curios teleport slot and used with the keybinds without holding it.
 
 ## Recipe
 
@@ -64,10 +63,10 @@ On Windows PowerShell:
 ## Dependencies
 
 - Required: NeoForge
-- Optional: Curios API
+- Optional: accessory slot integration
 - Development runtime only: JEI
 
-Curios is optional at runtime. The mod still works without Curios by using the device from the player’s hands.
+The mod works normally with the device in the player's hands.
 
 ## License
 

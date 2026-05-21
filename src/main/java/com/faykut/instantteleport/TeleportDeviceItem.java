@@ -14,7 +14,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Relative;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +48,7 @@ public class TeleportDeviceItem extends Item {
         ItemStack stack = super.getDefaultInstance();
         if (alwaysCharged) {
             CompoundTag tag = getTag(stack);
-            tag.putInt("Energy", CAPACITY);
+            tag.putInt("Energy", maxEnergy());
             setTag(stack, tag);
         }
         return stack;
@@ -74,8 +73,9 @@ public class TeleportDeviceItem extends Item {
     public static boolean teleport(ServerPlayer player, ItemStack stack, TeleportLocation location) {
         DeviceEnergyStorage energy = new DeviceEnergyStorage(stack);
         boolean alwaysCharged = isAlwaysCharged(stack);
-        if (!alwaysCharged && energy.getAmountAsInt() < TELEPORT_COST) {
-            player.sendSystemMessage(Component.literal("Teleport device needs " + TELEPORT_COST + " FE.").withStyle(ChatFormatting.RED), true);
+        int teleportCost = teleportCost();
+        if (!alwaysCharged && energy.getAmountAsInt() < teleportCost) {
+            player.sendSystemMessage(Component.literal("Teleport device needs " + teleportCost + " FE.").withStyle(ChatFormatting.RED), true);
             return false;
         }
 
@@ -88,7 +88,7 @@ public class TeleportDeviceItem extends Item {
 
         if (!alwaysCharged) {
             try (Transaction transaction = Transaction.openRoot()) {
-                energy.extract(TELEPORT_COST, transaction);
+                energy.extract(teleportCost, transaction);
                 transaction.commit();
             }
         }
@@ -175,6 +175,14 @@ public class TeleportDeviceItem extends Item {
         return stack.getItem() instanceof TeleportDeviceItem item && item.alwaysCharged;
     }
 
+    static int maxEnergy() {
+        return Config.TELEPORT_DEVICE_CAPACITY.get();
+    }
+
+    static int teleportCost() {
+        return Config.TELEPORT_COST.get();
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
         DeviceEnergyStorage energy = new DeviceEnergyStorage(stack);
@@ -184,11 +192,12 @@ public class TeleportDeviceItem extends Item {
             tooltip.accept(Component.literal(energy.getAmountAsInt() + " / " + energy.getCapacityAsInt() + " FE").withStyle(ChatFormatting.GRAY));
         }
         tooltip.accept(Component.literal("Shift-right-click: save location").withStyle(ChatFormatting.DARK_GRAY));
-        tooltip.accept(Component.literal("Right-click: teleport to slot 1").withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.accept(Component.literal("Right-click: open teleport editor").withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.accept(Component.literal("Alt+1-9: teleport to saved slot").withStyle(ChatFormatting.DARK_GRAY));
     }
 
     @Override public boolean isBarVisible(ItemStack stack) { return !isAlwaysCharged(stack); }
-    @Override public int getBarWidth(ItemStack stack) { return isAlwaysCharged(stack) ? 13 : Math.round(13.0F * new DeviceEnergyStorage(stack).getAmountAsInt() / CAPACITY); }
+    @Override public int getBarWidth(ItemStack stack) { return isAlwaysCharged(stack) ? 13 : Math.round(13.0F * new DeviceEnergyStorage(stack).getAmountAsInt() / maxEnergy()); }
     @Override public int getBarColor(ItemStack stack) { return 0x35C6FF; }
 
     public record TeleportLocation(int slot, String dimension, double x, double y, double z, float yRot, float xRot) {}
@@ -202,20 +211,20 @@ public class TeleportDeviceItem extends Item {
 
         @Override
         public long getAmountAsLong() {
-            if (isAlwaysCharged(stack)) return CAPACITY;
-            return getTag(stack).getIntOr("Energy", 0);
+            if (isAlwaysCharged(stack)) return maxEnergy();
+            return Math.min(getTag(stack).getIntOr("Energy", 0), maxEnergy());
         }
 
         @Override
         public long getCapacityAsLong() {
-            return CAPACITY;
+            return maxEnergy();
         }
 
         @Override
         public int insert(int amount, TransactionContext transaction) {
             if (amount < 0) throw new IllegalArgumentException("amount must be non-negative");
             if (isAlwaysCharged(stack)) return 0;
-            int inserted = Math.min(CAPACITY - getAmountAsInt(), amount);
+            int inserted = Math.min(maxEnergy() - getAmountAsInt(), amount);
             if (inserted > 0) {
                 updateSnapshots(transaction);
                 setEnergy(getAmountAsInt() + inserted);
@@ -226,7 +235,7 @@ public class TeleportDeviceItem extends Item {
         @Override
         public int extract(int amount, TransactionContext transaction) {
             if (amount < 0) throw new IllegalArgumentException("amount must be non-negative");
-            if (isAlwaysCharged(stack)) return Math.min(CAPACITY, amount);
+            if (isAlwaysCharged(stack)) return Math.min(maxEnergy(), amount);
             int extracted = Math.min(getAmountAsInt(), amount);
             if (extracted > 0) {
                 updateSnapshots(transaction);
@@ -247,7 +256,7 @@ public class TeleportDeviceItem extends Item {
 
         private void setEnergy(int energy) {
             CompoundTag tag = getTag(stack);
-            tag.putInt("Energy", Math.max(0, Math.min(CAPACITY, energy)));
+            tag.putInt("Energy", Math.max(0, Math.min(maxEnergy(), energy)));
             setTag(stack, tag);
         }
     }

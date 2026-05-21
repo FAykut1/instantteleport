@@ -1,0 +1,22 @@
+{
+  "itemGroup.instantteleport": "Instant Teleport",
+  "item.instantteleport.teleport_device": "Isinlanma Cihazi",
+  "item.instantteleport.admin_teleport_device": "Yaratici Isinlanma Cihazi",
+  "key.category.instantteleport.teleport": "Instant Teleport",
+  "key.instantteleport.teleport_slot_1": "1. Yuvaya Isinlan",
+  "key.instantteleport.teleport_slot_2": "2. Yuvaya Isinlan",
+  "key.instantteleport.teleport_slot_3": "3. Yuvaya Isinlan",
+  "key.instantteleport.teleport_slot_4": "4. Yuvaya Isinlan",
+  "key.instantteleport.teleport_slot_5": "5. Yuvaya Isinlan",
+  "key.instantteleport.teleport_slot_6": "6. Yuvaya Isinlan",
+  "key.instantteleport.teleport_slot_7": "7. Yuvaya Isinlan",
+  "key.instantteleport.teleport_slot_8": "8. Yuvaya Isinlan",
+  "key.instantteleport.teleport_slot_9": "9. Yuvaya Isinlan",
+  "curios.identifier.teleport": "Isinlanma Cihazi",
+
+  "instantteleport.configuration.title": "InstantTeleport Ayarlari",
+  "instantteleport.configuration.section.instantteleport.common.toml": "InstantTeleport Ayarlari",
+  "instantteleport.configuration.section.instantteleport.common.toml.title": "InstantTeleport Ayarlari",
+  "instantteleport.configuration.teleportDeviceCapacity": "Isinlanma Cihazi Kapasitesi",
+  "instantteleport.configuration.teleportCost": "Isinlanma Bedeli"
+}
