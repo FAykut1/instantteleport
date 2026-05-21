@@ -7,11 +7,21 @@
     "DRD"
   ],
   "key": {
-    "D": "minecraft:diamond",
-    "E": "minecraft:end_crystal",
-    "N": "minecraft:netherite_ingot",
-    "S": "minecraft:nether_star",
-    "R": "minecraft:recovery_compass"
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "R": {
+      "item": "minecraft:recovery_compass"
+    }
   },
   "result": {
     "id": "instantteleport:teleport_device",

@@ -3,7 +3,7 @@ package com.faykut.instantteleport;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -11,7 +11,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateTeleportSlotPayload(int slot, Action action, String name) implements CustomPacketPayload {
     public static final Type<UpdateTeleportSlotPayload> TYPE =
-            new Type<>(Identifier.fromNamespaceAndPath(InstantTeleport.MODID, "update_teleport_slot"));
+            new Type<>(ResourceLocation.fromNamespaceAndPath(InstantTeleport.MODID, "update_teleport_slot"));
     public static final StreamCodec<RegistryFriendlyByteBuf, UpdateTeleportSlotPayload> STREAM_CODEC =
             CustomPacketPayload.codec(UpdateTeleportSlotPayload::write, UpdateTeleportSlotPayload::read);
 

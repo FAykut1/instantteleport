@@ -2,6 +2,8 @@
 
 InstantTeleport is a NeoForge Minecraft mod that adds a rechargeable teleportation device with saved destination slots, hotkey teleporting, and optional Curios support.
 
+This branch targets Minecraft `1.21.1` with NeoForge `21.1.228`.
+
 ## Features
 
 - `Teleportation Device` with 9 saved destination slots.
@@ -67,7 +69,7 @@ On Windows PowerShell:
 - Optional: Curios API
 - Development runtime only: JEI
 
-Curios is optional at runtime. The mod still works without Curios by using the device from the player’s hands.
+Curios is optional at runtime. The mod still works without Curios by using the device from the player's hands.
 
 ## License
 

@@ -3,12 +3,12 @@ package com.faykut.instantteleport;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class TeleportDeviceScreen extends Screen {
     private static final int ROW_HEIGHT = 20;
@@ -71,19 +71,23 @@ public class TeleportDeviceScreen extends Screen {
     }
 
     private static void send(int slot, UpdateTeleportSlotPayload.Action action, String name) {
-        ClientPacketDistributor.sendToServer(new UpdateTeleportSlotPayload(slot, action, name));
+        PacketDistributor.sendToServer(new UpdateTeleportSlotPayload(slot, action, name));
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         int panelHeight = panelHeight();
         int left = (width - PANEL_WIDTH) / 2;
         int top = panelTop();
+        renderBackground(graphics, mouseX, mouseY, partialTick);
         graphics.fill(left, top, left + PANEL_WIDTH, top + panelHeight, 0xDD0C1218);
-        graphics.outline(left, top, PANEL_WIDTH, panelHeight, 0xFF2A95B8);
+        graphics.fill(left, top, left + PANEL_WIDTH, top + 1, 0xFF2A95B8);
+        graphics.fill(left, top + panelHeight - 1, left + PANEL_WIDTH, top + panelHeight, 0xFF2A95B8);
+        graphics.fill(left, top, left + 1, top + panelHeight, 0xFF2A95B8);
+        graphics.fill(left + PANEL_WIDTH - 1, top, left + PANEL_WIDTH, top + panelHeight, 0xFF2A95B8);
         graphics.fill(left + 7, top + 7, left + PANEL_WIDTH - 7, top + 38, 0xEE1A3342);
-        graphics.centeredText(font, Component.literal("Teleportation Device"), width / 2, top + 10, 0xFFFFFFFF);
-        graphics.centeredText(font, Component.literal(payload.status()), width / 2, top + 24, 0xFF9FD8EC);
+        graphics.drawCenteredString(font, Component.literal("Teleportation Device"), width / 2, top + 10, 0xFFFFFFFF);
+        graphics.drawCenteredString(font, Component.literal(payload.status()), width / 2, top + 24, 0xFF9FD8EC);
 
         int rowLeft = left + 10;
         for (OpenTeleportDeviceScreenPayload.SlotInfo slot : payload.slots()) {
@@ -92,13 +96,13 @@ public class TeleportDeviceScreen extends Screen {
             int dotColor = slot.saved() ? 0xFF35FF9A : 0xFF5F6670;
             graphics.fill(left + 7, y - 1, left + PANEL_WIDTH - 7, y + BUTTON_HEIGHT + 1, rowColor);
             graphics.fill(left + 14, y + 6, left + 19, y + 11, dotColor);
-            graphics.text(font, String.valueOf(slot.slot() + 1), rowLeft + 14, y + 5, 0xDDEEFF);
-            graphics.text(font, slot.saved() ? "Saved" : "Empty", rowLeft + 32, y + 5, slot.saved() ? 0x66FFAA : 0x8A9099);
+            graphics.drawString(font, String.valueOf(slot.slot() + 1), rowLeft + 14, y + 5, 0xFFDDEEFF);
+            graphics.drawString(font, slot.saved() ? "Saved" : "Empty", rowLeft + 32, y + 5, slot.saved() ? 0xFF66FFAA : 0xFF8A9099);
         }
 
-        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
-        graphics.centeredText(font, Component.literal("Teleportation Device"), width / 2, top + 10, 0xFFFFFFFF);
-        graphics.centeredText(font, Component.literal(payload.status()), width / 2, top + 24, 0xFF9FD8EC);
+        super.render(graphics, mouseX, mouseY, partialTick);
+        graphics.drawCenteredString(font, Component.literal("Teleportation Device"), width / 2, top + 10, 0xFFFFFFFF);
+        graphics.drawCenteredString(font, Component.literal(payload.status()), width / 2, top + 24, 0xFF9FD8EC);
     }
 
     private int panelHeight() {

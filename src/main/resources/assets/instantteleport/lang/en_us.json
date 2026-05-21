@@ -2,7 +2,7 @@
   "itemGroup.instantteleport": "Instant Teleport",
   "item.instantteleport.teleport_device": "Teleportation Device",
   "item.instantteleport.admin_teleport_device": "Creative Teleportation Device",
-  "key.category.instantteleport.teleport": "Instant Teleport",
+  "key.categories.instantteleport.teleport": "Instant Teleport",
   "key.instantteleport.teleport_slot_1": "Teleport to Slot 1",
   "key.instantteleport.teleport_slot_2": "Teleport to Slot 2",
   "key.instantteleport.teleport_slot_3": "Teleport to Slot 3",

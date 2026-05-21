@@ -50,14 +50,14 @@ public class InstantTeleport {
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.Energy.ITEM,
+        event.registerItem(Capabilities.EnergyStorage.ITEM,
                 (stack, context) -> new TeleportDeviceItem.DeviceEnergyStorage(stack),
                 TELEPORT_DEVICE.get(), ADMIN_TELEPORT_DEVICE.get());
     }
 
     private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
         event.registrar("1")
-                .playToClient(OpenTeleportDeviceScreenPayload.TYPE, OpenTeleportDeviceScreenPayload.STREAM_CODEC)
+                .playToClient(OpenTeleportDeviceScreenPayload.TYPE, OpenTeleportDeviceScreenPayload.STREAM_CODEC, OpenTeleportDeviceScreenPayload::handle)
                 .playToServer(TeleportSlotPayload.TYPE, TeleportSlotPayload.STREAM_CODEC, TeleportSlotPayload::handle)
                 .playToServer(UpdateTeleportSlotPayload.TYPE, UpdateTeleportSlotPayload.STREAM_CODEC, UpdateTeleportSlotPayload::handle);
     }

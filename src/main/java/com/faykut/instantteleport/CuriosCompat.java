@@ -2,28 +2,26 @@ package com.faykut.instantteleport;
 
 import java.util.Optional;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.EntityCapability;
-import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.item.ItemResource;
-import net.neoforged.neoforge.transfer.item.ItemUtil;
+import net.neoforged.neoforge.items.IItemHandler;
 
 public final class CuriosCompat {
-    private static final EntityCapability<ResourceHandler<ItemResource>, Void> CURIOS_INVENTORY =
-            EntityCapability.createVoid(Identifier.fromNamespaceAndPath("curios", "item_handler"), ResourceHandler.asClass());
+    private static final EntityCapability<IItemHandler, Void> CURIOS_INVENTORY =
+            EntityCapability.createVoid(ResourceLocation.fromNamespaceAndPath("curios", "item_handler"), IItemHandler.class);
 
     private CuriosCompat() {}
 
     public static Optional<ItemStack> findTeleportDevice(ServerPlayer player) {
-        ResourceHandler<ItemResource> inventory = player.getCapability(CURIOS_INVENTORY);
+        IItemHandler inventory = player.getCapability(CURIOS_INVENTORY);
         if (inventory == null) {
             return Optional.empty();
         }
 
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            ItemStack stack = ItemUtil.getStack(inventory, slot);
+        for (int slot = 0; slot < inventory.getSlots(); slot++) {
+            ItemStack stack = inventory.getStackInSlot(slot);
             if (stack.getItem() instanceof TeleportDeviceItem) {
                 return Optional.of(stack);
             }

@@ -3,15 +3,17 @@ package com.faykut.instantteleport;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record OpenTeleportDeviceScreenPayload(List<SlotInfo> slots, String status) implements CustomPacketPayload {
     public static final Type<OpenTeleportDeviceScreenPayload> TYPE =
-            new Type<>(Identifier.fromNamespaceAndPath(InstantTeleport.MODID, "open_teleport_device"));
+            new Type<>(ResourceLocation.fromNamespaceAndPath(InstantTeleport.MODID, "open_teleport_device"));
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenTeleportDeviceScreenPayload> STREAM_CODEC =
             CustomPacketPayload.codec(OpenTeleportDeviceScreenPayload::write, OpenTeleportDeviceScreenPayload::read);
 
@@ -35,6 +37,10 @@ public record OpenTeleportDeviceScreenPayload(List<SlotInfo> slots, String statu
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
+    }
+
+    public static void handle(OpenTeleportDeviceScreenPayload payload, IPayloadContext context) {
+        Minecraft.getInstance().setScreen(new TeleportDeviceScreen(payload));
     }
 
     private void write(RegistryFriendlyByteBuf buffer) {
