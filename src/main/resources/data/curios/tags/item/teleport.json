@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "instantteleport:teleport_device",
+    "instantteleport:admin_teleport_device"
+  ]
+}

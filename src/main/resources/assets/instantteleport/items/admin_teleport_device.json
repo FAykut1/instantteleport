@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "instantteleport:item/teleport_device"
+  }
+}

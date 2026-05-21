@@ -1,0 +1,22 @@
+{
+  "itemGroup.instantteleport": "Instant Teleport",
+  "item.instantteleport.teleport_device": "Teleportation Device",
+  "item.instantteleport.admin_teleport_device": "Creative Teleportation Device",
+  "key.category.instantteleport.teleport": "Instant Teleport",
+  "key.instantteleport.teleport_slot_1": "Teleport to Slot 1",
+  "key.instantteleport.teleport_slot_2": "Teleport to Slot 2",
+  "key.instantteleport.teleport_slot_3": "Teleport to Slot 3",
+  "key.instantteleport.teleport_slot_4": "Teleport to Slot 4",
+  "key.instantteleport.teleport_slot_5": "Teleport to Slot 5",
+  "key.instantteleport.teleport_slot_6": "Teleport to Slot 6",
+  "key.instantteleport.teleport_slot_7": "Teleport to Slot 7",
+  "key.instantteleport.teleport_slot_8": "Teleport to Slot 8",
+  "key.instantteleport.teleport_slot_9": "Teleport to Slot 9",
+  "curios.identifier.teleport": "Teleport Device",
+
+  "instantteleport.configuration.title": "InstantTeleport Configs",
+  "instantteleport.configuration.section.instantteleport.common.toml": "InstantTeleport Configs",
+  "instantteleport.configuration.section.instantteleport.common.toml.title": "InstantTeleport Configs",
+  "instantteleport.configuration.teleportDeviceCapacity": "Teleport Device Capacity",
+  "instantteleport.configuration.teleportCost": "Teleport Cost"
+}
