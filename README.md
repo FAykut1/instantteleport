@@ -1,25 +1,74 @@
+# InstantTeleport
 
-Installation information
-=======
+InstantTeleport is a NeoForge Minecraft mod that adds a rechargeable teleportation device with saved destination slots, hotkey teleporting, and optional Curios support.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+## Features
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+- `Teleportation Device` with 9 saved destination slots.
+- `Creative Teleportation Device` for testing, with infinite energy.
+- Compact right-click GUI for saving, renaming, and removing destinations.
+- `Alt + 1` through `Alt + 9` keybinds to teleport to saved slots.
+- Optional Curios integration with a dedicated `Teleport Device` slot.
+- JEI is included only in the local Gradle runtime for development/testing.
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+## Usage
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+- Hold the device and `Right Click` to open the destination editor.
+- `Shift + Right Click` saves the current position into the first empty slot.
+- Use `Set` in the GUI to save the current position to a specific slot.
+- Use `Name` to rename a saved slot.
+- Use `X` to remove a saved slot.
+- Press `Alt + 1` through `Alt + 9` to teleport to the matching saved slot.
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+If Curios is installed, the device can be equipped in the Curios teleport slot and used with the keybinds without holding it.
+
+## Recipe
+
+The normal device is intended as a late-game item:
+
+```text
+D E D
+N S N
+D R D
+```
+
+- `D` = Diamond
+- `E` = End Crystal
+- `N` = Netherite Ingot
+- `S` = Nether Star
+- `R` = Recovery Compass
+
+The creative device is available from the mod creative tab for testing.
+
+## Development
+
+Build the mod:
+
+```bash
+./gradlew build
+```
+
+Run the development client:
+
+```bash
+./gradlew runClient
+```
+
+On Windows PowerShell:
+
+```powershell
+.\gradlew.bat build
+.\gradlew.bat runClient
+```
+
+## Dependencies
+
+- Required: NeoForge
+- Optional: Curios API
+- Development runtime only: JEI
+
+Curios is optional at runtime. The mod still works without Curios by using the device from the player’s hands.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
